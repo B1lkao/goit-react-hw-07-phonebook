@@ -1,17 +1,25 @@
-import { WrapperFiler, FilterInput, FilterP } from './Filter.styled';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Label, Input } from './Filter.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { filtration } from 'Redux/filterSlice';
+import { setFilter } from '../../Redux/filterSlice';
+
 export const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter);
+  const value = useSelector(state => state.filter);
+  const changeFilter = evt => {
+    dispatch(setFilter(evt.currentTarget.value));
+  };
+
   return (
-    <WrapperFiler>
-      <FilterP>Find contacts by name</FilterP>
-      <FilterInput
-        type="text"
-        value={filter}
-        onChange={e => dispatch(filtration(e.target.value))}
-      />
-    </WrapperFiler>
+    <Label>
+      Find contacts by Name
+      <Input type="text" value={value} onChange={changeFilter} />
+    </Label>
   );
+};
+
+Filter.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
